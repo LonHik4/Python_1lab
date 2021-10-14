@@ -5,8 +5,8 @@ import requests
 import re
 import csv
 
-#Программно разархивировать архив в выбранную директорию.
-directory_to_extract_to = 'D:\\лабы питон\\1лаба\\Lab1'
+# Программно разархивировать архив в выбранную директорию.
+directory_to_extract_to = r'D:\\лабы питон\\1лаба\\Lab1'
 try:
     os.mkdir(directory_to_extract_to)
 except Exception:
@@ -15,12 +15,12 @@ else:
     arch_file = zipfile.ZipFile('D:\\лабы питон\\tiff-4.2.0_lab1.zip')
     arch_file.extractall(directory_to_extract_to)
     arch_file.close()
-#2.1 Получить список файлов (полный путь) формата sh. Сохранить полученный список
+# 2.1 Получить список файлов (полный путь) формата sh. Сохранить полученный список
 txt_files = []
 for r, d, f in os.walk("."):
     for file in f:
         if file.endswith(".txt"):
-            txt_files.append(str(r + '\\' + file))
+            txt_files.append(os.path.join(r, file))
 print("Список всех файлов с расширением .txt")
 print('\n'.join(txt_files))
 # Задание №2.2 Получить значения MD5 хеша для найденных файлов и вывести полученные данные на экран.
@@ -40,7 +40,7 @@ target_file_data = ''  # содержимое искомого файла
 # Найти файл MD5 хеш которого равен target_hash в directory_to_extract_to
 for r, d, f in os.walk(directory_to_extract_to):
     for file in f:
-        data = os.path.join(r,file)
+        data = os.path.join(r, file)
         data = open(data, 'rb')
         a = data.read()
         if (hashlib.md5(a).hexdigest()) == target_hash:
